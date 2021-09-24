@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Team Builder{% endblock %}
+
+{% block body %}
+
+
+	<div class="container mt-3">
+
+		<div class="row">
+			<div class="col-md-8">
+
+				<div class="divTeam">
+					{{form_start(formEquipe)}}
+					<div class="row">
+						<div class="col-4">
+							{{ form_widget(formEquipe.nom) }}
+							<!--<input class="form-control"  id="team" placeholder="Nom de l'Equipe">-->
+						</div>
+						<div class="col-8">
+							<button type="submit" class="btn btn-success">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>
+					{{ form_end(formEquipe) }}
+
+			</div>
+			<div id="demo"></div>
+
+
+			<br>
+			<br>
+				{% for e in equipes %}
+			<table class="table table-striped" data-id="{{ e.id }}">
+			<tbody>
+			<tr>
+				<td colspan="2">
+					<h3> {{ e.nom }}
+						<button class="btn btn-danger btnDelTeam">  <a href="{{ path('equipe_delete',{id: e.id}) }}"><i class="fa fa-trash"></i></button>
+					</h3>
+				</td>
+			</tr>
+			<tr>
+				<th>Nom</th>
+				<th>Prenom</th>
+			</tr>
+			{% for ep in e.personnes %}
+			<tr>
+				<td>{{ ep.nom}}</td>
+				<td>{{ ep.prenom}}</td>
+				<td><button class="btn btn-secondary"><a href="{{ path('personne_remove',{idp: ep.id, ide:e.id}) }}"><i class="far fa-arrow-alt-circle-right"></i></button></td>
+			</tr>
+			{% endfor %}
+			</tbody>
+			</table>
+				{% endfor %}
+
+
+		</div>
+
+		<div class="col-md-4">
+			{{ form_start(formPersonne) }}
+			<div class="divUser">
+				{{ form_widget(formPersonne) }}
+
+				<div class="form-group text-center mb-0">
+					<button class="btn btn-success btn-lg "
+					id="btnAddUser">
+					<i class="fa fa-plus"></i>
+				</button>
+				</div>
+
+			</div>
+			{{ form_end(formPersonne) }}
+
+
+		<div class="divListUser">
+			<table id="tabListUser">
+				{% for p in personnes %}
+				<tr data-id="{{ p.id }}">
+					<td>{{ p.nom }} {{ p.prenom }}</td>
+					<td><button type="button" class="btnDelUser btn btn-danger"> <a href="{{ path('personne_delete',{id: p.id}) }}"><i class="fa fa-trash"></i></button></td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+
+	</div>	<!-- col4 -->
+</div><!-- row -->
+
+</div><!-- container -->
+
+
+
+
+{% endblock %}
